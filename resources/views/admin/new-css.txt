@@ -1,0 +1,22 @@
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+label a.red {
+        color: #ff0000!important;
+        background: none;
+        padding: 0 10px;
+    }
+    
+    label a.red:hover {
+        background: none;
+    }
+    
+    .blck {
+        color: #000;
+    }
+    
+    .txt-15 {
+        font-size: 15px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: #000;
+    }
