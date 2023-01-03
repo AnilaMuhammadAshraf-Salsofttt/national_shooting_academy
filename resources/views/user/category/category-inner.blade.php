@@ -71,7 +71,7 @@ $activeNav = 'user-dash';
                     <h4 class="heading">Categories</h4>
                     <div class="side-panel-inner border-bottom">
                         @foreach ($category as $categories)
-                            
+
                         <p class="site-text black-text">
                             <input type="checkbox" class="cat_clas" id="test{{ $categories->id }}" value="{{ $categories->id }}" name="radio_group[]">
                             {{-- <input type="checkbox" class="cat_clas" onclick="myfunction('{{ $categories->id }}')" id="test{{ $categories->id }}" value="{{ $categories->id }}" name="radio-group[]"> --}}
@@ -79,7 +79,7 @@ $activeNav = 'user-dash';
                         </p>
                         @endforeach
 
-                       
+
                     </div>
                     <div class="side-panel-inner">
                         <p class="sidebar-heading mb-4">Price Range</p>
@@ -113,8 +113,11 @@ $activeNav = 'user-dash';
                 </div>
                 <div class="row mt-4 show_product">
                     @foreach ($product as $products)
-                   
+
                     <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+
+                            <a class="prod-a2c" href="{{ url('user_inner_product/'.$products->id.'/'.$products->category_id) }}">
+<object>
                         <div class="product-div">
 
                             @if ($products->wishlist == '')
@@ -129,14 +132,20 @@ $activeNav = 'user-dash';
                             <a class="prod-a2c" href="{{ url('user_inner_product/'.$products->id.'/'.$products->category_id) }}"><i class="fas fa-shopping-cart"></i></a>
                             <img src="{{ $products->base_image }}" alt="n/a">
                             <p class="product-title">{{ ucfirst($products->name) }}</p>
-                            <p class="product__price">${{ $products->price }}</p>
+                            @php
+                            $percent=20/100;
+                             $newprice=$products->price * $percent;
+                            @endphp
+                            <p class="product__price"><del>${{ $products->price }}</del>  ${{ $newprice }}  </p>
                         </div>
+                    </object>
+                    </a>
                     </div>
                     @endforeach
 
-            
+
                 </div>
-               
+
             </div>
         </div>
 
@@ -161,17 +170,17 @@ $activeNav = 'user-dash';
 
 @endsection
 
-{{-- 
+{{--
 @section('js')
 
 <script>
     var items = [];
 function myfunction(id){
-  
-items.push(id);  
+
+items.push(id);
 //  alert(items);
 $(document).ready(function(){
-    
+
 $.ajax({
 url:"{{ url('filter_product') }}",
 method:"post",

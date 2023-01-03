@@ -101,7 +101,12 @@ $activeNav = 'user-dash';
 
 
                     <h3 class="product-title">{{ ucfirst($product->name) }}</h3>
-                    <h3 class="product__price">${{ $product->price }}</h3>
+                      @php
+                            $percent=20/100;
+                             $newprice=$product->price * $percent;
+                            @endphp
+
+                    <h3 class="product__price"><del>${{ $product->price }}</del>  ${{ $newprice }}</h3>
                     <p class="prod__desc">{{ $product->description }}</p>
                     <div class="row py-4 align-items-center">
                         <div class="col-lg-4">
@@ -130,7 +135,7 @@ $activeNav = 'user-dash';
                                  <p class="p-2">XLarge </p>
                                  @endif
                                   @if($size->xxlarge==1)
-                                 <p class="p-2">2XLarge </p>
+                                 <p class="p-2">XXLarge </p>
                                  @endif
                                @endforeach
                         </div>

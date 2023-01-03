@@ -126,7 +126,12 @@ $activeNav = 'user-dash';
                             <a class="prod-a2c" href="{{ url('user_inner_product/'.$products->id.'/'.$products->category_id) }}"><i class="fas fa-shopping-cart"></i></a>
                             <img src="{{asset('storage/banner_image/'. $products->base_image) }}" alt="n/a">
                             <p class="product-title">{{ ucfirst($products->name) }}</p>
-                            <p class="product__price">${{ $products->price }}</p>
+                              @php
+                            $percent=20/100;
+                             $newprice=$products->price * $percent;
+                            @endphp
+                            <p class="product__price"><del>${{ $products->price }}</del>  ${{ $newprice }}  </p>
+            
                         </div>
                         </object>
                     </a>

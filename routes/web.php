@@ -179,7 +179,7 @@ Route::post('forgotPassword', [IndexController::class, 'forgotPassword'])->name(
 Route::get('verifyCode/{email}', [IndexController::class, 'verifyCode'])->name('user.verify.code');
 Route::post('updatePassword', [IndexController::class, 'updatePassword'])->name('user.update.password');
 
-Route::get('register_1', [IndexController::class, 'register_1']);
+Route::get('register_1', [IndexController::class, 'register_1'])->name('registerpage');
 
 Route::get('register_2/{id}', [IndexController::class, 'register_2']);
 Route::post('register_1_insert', [IndexController::class, 'register_1_insert']);

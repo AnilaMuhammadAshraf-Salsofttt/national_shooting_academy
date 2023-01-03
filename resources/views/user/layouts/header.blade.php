@@ -136,7 +136,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <h4 class="modal_h4">WHEN YOU SIGN UP FOR NATIONAL SHOOTING ACADEMY MEMBERSHIP PROGRAM, YOU GET 20 % OFF ON ONLINE TRAININGS AND MERCHANDIZE.</h4>
-                            <a href="#" data-dismiss="modal" class="modal__btn my-2">Subscribe</a>
+                            <a href="{{route('registerpage')}}"  class="modal__btn my-2">Subscribe</a>
                         </div>
                     </div>
                 </div>

@@ -176,7 +176,11 @@
 <script>
   $( document ).ready(function() {
     console.log( "ready!" );
-      $('#myModal').modal('show');
+    var auth=`{{Auth::user()}}`;
+    if(auth==''){
+   $('#myModal').modal('show');
+    }
+   var url=`{{Request::url()}}`;
     $('#div_download').hide();
 });
 

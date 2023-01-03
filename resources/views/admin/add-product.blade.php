@@ -56,8 +56,14 @@ $activeNav = 'inventory-management';
                                                                     name="category_id" required>
                                                                     <option disabled>Select Product Category</option>
                                                                     @foreach ($category as $item)
-                                                                    @php if ($item->id ==2) $selected = ' selected="selected"'; else $selected = ''; @endphp
-                                                                        <option  <?= $selected ?> id="category_id"
+                                                                        @php
+                                                                            if ($item->id == 2) {
+                                                                                $selected = ' selected="selected"';
+                                                                            } else {
+                                                                                $selected = '';
+                                                                            }
+                                                                        @endphp
+                                                                        <option <?= $selected ?> id="category_id"
                                                                             value="{{ $item->id }}">
                                                                             {{ $item->name }}</option>
                                                                     @endforeach
@@ -82,7 +88,8 @@ $activeNav = 'inventory-management';
                                                             <div class="form-group col-md-6">
                                                                 <label>Product Primary Image</label>
                                                                 <div class="upload-btn-wrapper">
-                                                                    <img src="" id="baseimg">
+                                                                    <img src="" id="baseimg"
+                                                                        class="img-fluid">
                                                                     <button class="btn-3"><i
                                                                             class="fas fa-plus"></i></button>
                                                                     <input type="file" id="base_img"
@@ -99,13 +106,14 @@ $activeNav = 'inventory-management';
                                                         @php
                                                             $i = 1;
                                                         @endphp
-                                                        @while ($i <= 4)
+                                                        @while ($i <=5)
                                                             <div class="form-row">
                                                                 <div class="form-group col-md-6">
 
                                                                     <div class="upload-btn-wrapper">
                                                                         <img src=""
-                                                                            id="preview{{ $i }}">
+                                                                            id="preview{{ $i }}"
+                                                                            class="img-fluid">
                                                                         <button class="btn-3"><i
                                                                                 class="fas fa-plus"></i></button>
                                                                         <input type="file"
@@ -116,21 +124,76 @@ $activeNav = 'inventory-management';
 
                                                                 </div>
                                                                 <div class="form-group col-md-6">
-                                                                    <label for="colorpicker">Color Picker:</label>
-                                                                    <input type="color" class="colorclass"
+
+                                                                    {{-- <label for="colorpicker">Color Picker:</label> --}}
+                                                                    {{-- <input type="color" class="colorclass"
                                                                         id="colorpicker{{ $i }}"
                                                                         onchange="push('colorpicker{{ $i }}')"
-                                                                        name="color" value="#000000" required>
+                                                                        name="color" value="#000000" required> --}}
                                                                 </div>
 
-                                                                <div class="form-group col-sm-8"
+                                                                <div class="form-group col-sm-7">
+                                                                    <label for="colorpicker">Colors:</label>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1">
+                                                                            <div class="box"
+                                                                                style="background-color:#FF0000"></div>
+                                                                            <input onchange="push()" id="red[]"
+
+                                                                                name="color[{{ $i }}]"
+                                                                                type="radio" value="#FF0000">
+                                                                        </div>
+                                                                        <div class="col-sm-1">
+                                                                            <div class="box"
+                                                                                style="background-color:#000000"></div>
+                                                                            <input  onchange="push()" id="black[]" type="radio"
+                                                                                name="color[{{ $i }}]"
+                                                                                value="#000000">
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-1">
+                                                                            <div class="box"
+                                                                                style="background-color:#FFFFFF"></div>
+                                                                            <input onchange="push()" id="white[]" type="radio"
+
+                                                                                name="color[{{ $i }}]"
+                                                                                value="#FFFFFF">
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-1">
+                                                                            <div class="box"
+                                                                                style="background-color:#8C001A"></div>
+                                                                            <input onchange="push()" id="burgundy[]" type="radio"
+                                                                                name="color[{{ $i }}]"
+                                                                                value="#8C001A">
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-1">
+                                                                            <div class="box"
+                                                                                style="background-color:#800000"></div>
+                                                                            <input  onChange="push()" id="maroon[]" type="radio"
+                                                                                name="color[{{ $i }}]"
+                                                                                value="#800000">
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group col-sm-7"
                                                                     id="sizetab{{ $i }}">
                                                                     <label for="colorpicker">Size:</label>
                                                                     <div class="row">
 
 
                                                                         <div class="col-sm-1 mr-2">
-                                                                            <input   onChange="pushSize({{ $i }})" name="small[]" type="checkbox"
+                                                                            <input
+                                                                                onChange="pushSize({{ $i }})"
+                                                                                name="small[]" type="checkbox"
                                                                                 id="small{{ $i }}"
                                                                                 value="1">
                                                                             <label for="small">Small</label>
@@ -232,8 +295,8 @@ $activeNav = 'inventory-management';
         $(document).ready(function() {
             console.log('ready page');
             $('#alert').hide();
-            for(var i=1; i<=4;i++){
-                $('#sizetab'+i).hide();
+            for (var i = 0; i < 4; i++) {
+                $('#sizetab' + i).hide();
             }
 
         });
@@ -243,19 +306,38 @@ $activeNav = 'inventory-management';
         var arr_img = [];
         var size = [];
         let formData = new FormData();
-   var checkid=0;
-        function push(id) {
-            var data = document.getElementById(id).value;
-         id = id.split("colorpicker");
-           if(id==checkid){
-               arraydata
-           }
 
-            //   alert('color:'+data)
-            arraydata.push(data);
-            checkid=id;
-                console.log({arraydata})
-            //  console.log('data form:'+formData.get('colors[]'));
+        var colors, blackValues, whiteValues, maroonValues, burgundyValues;
+
+        function push(i) {
+            redValues = $("input[id='red[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            blackValues = $("input[id='black[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            whiteValues = $("input[id='white[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            burgundyValues = $("input[id='burguny[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            maroonValues = $("input[id='maroon[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+
+                 if(redValues!=null){
+                     arraydata.push({color:redValues,id:i})
+                 }
+
+            console.log('red: ' + redValues)
+            console.log('black: ' + blackValues)
+            console.log('white: ' + whiteValues)
 
 
         }
@@ -263,9 +345,9 @@ $activeNav = 'inventory-management';
         function getid() {
             selected = document.getElementById('exampleFormControlSelect1').value;
             if (selected == 1) {
-                 for(var i=1; i<=4;i++){
-                $('#sizetab'+i).show();
-            }
+                for (var i = 1; i <= 4; i++) {
+                    $('#sizetab' + i).show();
+                }
 
             }
         }
@@ -304,59 +386,69 @@ $activeNav = 'inventory-management';
             //  alert('form'+image_upload.get('images[]'));
 
         });
-var smallValues;
-var mediumValues;
- var largeValues;
-   var xlargeValues;
-   var xxlargeValues;
+        var smallValues;
+        var mediumValues;
+        var largeValues;
+        var xlargeValues;
+        var xxlargeValues;
 
         function pushSize(id) {
-             smallValues = $("input[name='small[]']:checked")
-              .map(function(){return $(this).val();}).get();
-               mediumValues = $("input[name='medium[]']:checked")
-              .map(function(){return $(this).val();}).get();
-               largeValues = $("input[name='large[]']:checked")
-              .map(function(){return $(this).val();}).get();
-               xlargeValues = $("input[name='xlarge[]']:checked")
-              .map(function(){return $(this).val();}).get();
-               xxlargeValues = $("input[name='xxlarge[]']:checked")
-              .map(function(){return $(this).val();}).get();
-              console.log('sm: '+smallValues)
-              console.log('med: '+mediumValues)
-              console.log('large: '+largeValues)
+            smallValues = $("input[name='small[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            mediumValues = $("input[name='medium[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            largeValues = $("input[name='large[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            xlargeValues = $("input[name='xlarge[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            xxlargeValues = $("input[name='xxlarge[]']:checked")
+                .map(function() {
+                    return $(this).val();
+                }).get();
+            console.log('sm: ' + smallValues)
+            console.log('med: ' + mediumValues)
+            console.log('large: ' + largeValues)
             // let small = document.getElementById('small' + id);
-//             let large = document.getElementById('large' + id);
-//             let xlarge = document.getElementById('xlarge' + id);
-//             let xxlarge = document.getElementById('xxlarge' + id);
-//             if (medium.checked) {
-//                 alert('checked medium');
-//                 size.push({medium:1,id:id})
-//             }
-//             // if (small.checked) {
-//             //     alert('checked small');
+            //             let large = document.getElementById('large' + id);
+            //             let xlarge = document.getElementById('xlarge' + id);
+            //             let xxlarge = document.getElementById('xxlarge' + id);
+            //             if (medium.checked) {
+            //                 alert('checked medium');
+            //                 size.push({medium:1,id:id})
+            //             }
+            //             // if (small.checked) {
+            //             //     alert('checked small');
 
-//             // }
-//             if (large.checked) {
-//                 alert('checked large');
-//                 size.push({large:1,id:id})
-//             }
-//             if (xlarge.checked) {
-//                 size.push({xlarge:1,id:id})
-//                 alert('checked xlarge');
-//             }
-//             if (xxlarge.checked) {
-//                 size.push({xxlarge:1,id:id})
-//                 alert('checked xxlarge');
-//             }
-//             console.log('size : ');
-//             console.log({size});
-//             for(var i = 0; i < arraydata.length; i++) {
-//     var clr = arraydata[i];
-//     for(var j = 0; j < clr.length; j++) {
-//         display("clr[" + i + "][" + j + "] = " + clr[j]);
-//         console.log('2d'+clr[j])
-//     }
-// }
+            //             // }
+            //             if (large.checked) {
+            //                 alert('checked large');
+            //                 size.push({large:1,id:id})
+            //             }
+            //             if (xlarge.checked) {
+            //                 size.push({xlarge:1,id:id})
+            //                 alert('checked xlarge');
+            //             }
+            //             if (xxlarge.checked) {
+            //                 size.push({xxlarge:1,id:id})
+            //                 alert('checked xxlarge');
+            //             }
+            //             console.log('size : ');
+            //             console.log({size});
+            //             for(var i = 0; i < arraydata.length; i++) {
+            //     var clr = arraydata[i];
+            //     for(var j = 0; j < clr.length; j++) {
+            //         display("clr[" + i + "][" + j + "] = " + clr[j]);
+            //         console.log('2d'+clr[j])
+            //     }
+            // }
         }
         $(".sub").click(function(e) {
             e.preventDefault();
@@ -377,12 +469,11 @@ var mediumValues;
 
                 for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
                     formData.append('id[]', i);
-                    formData.append('colors[]', arraydata[i]);
-                     formData.append('small[]', smallValues[i]);
-                     formData.append('medium[]', mediumValues[i]);
-                     formData.append('large[]', largeValues[i]);
-                     formData.append('xlarge[]',xlargeValues[i]);
-                     formData.append('xxlarge[]', xxlargeValues[i]);
+                    formData.append('small[]', smallValues[i]);
+                    formData.append('medium[]', mediumValues[i]);
+                    formData.append('large[]', largeValues[i]);
+                    formData.append('xlarge[]', xlargeValues[i]);
+                    formData.append('xxlarge[]', xxlargeValues[i]);
                     //   console.log('data inserted:');
                 }
 
