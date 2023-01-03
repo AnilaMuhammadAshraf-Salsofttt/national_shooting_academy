@@ -130,9 +130,9 @@ $activeNav = 'inventory-management';
 
 
                                                                         <div class="col-sm-1 mr-2">
-                                                                            <input name="checkbox" type="checkbox"
+                                                                            <input   onChange="pushSize({{ $i }})" name="small[]" type="checkbox"
                                                                                 id="small{{ $i }}"
-                                                                                value="small">
+                                                                                value="1">
                                                                             <label for="small">Small</label>
                                                                         </div>
 
@@ -140,36 +140,36 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1 mr-2">
                                                                             <input type="checkbox"
                                                                                 onChange="pushSize({{ $i }})"
-                                                                                name="checkbox"
+                                                                                name="medium[]"
                                                                                 id="medium{{ $i }}"
-                                                                                value="medium">
+                                                                                value="1">
                                                                             <label for="medium">Medium</label>
                                                                         </div>
 
                                                                         <div class="col-sm-1 mr-2">
                                                                             <input type="checkbox"
                                                                                 onChange="pushSize({{ $i }})"
-                                                                                name="checkbox"
+                                                                                name="large[]"
                                                                                 id="large{{ $i }}"
-                                                                                value="large">
+                                                                                value="1">
                                                                             <label for="large">Large</label>
                                                                         </div>
 
                                                                         <div class="col-sm-1 mr-2">
                                                                             <input type="checkbox"
                                                                                 onChange="pushSize({{ $i }})"
-                                                                                name="checkbox"
+                                                                                name="xlarge[]"
                                                                                 id="xlarge{{ $i }}"
-                                                                                value="xlarge">
+                                                                                value="1">
                                                                             <label for="xlarge">XL</label>
                                                                         </div>
 
                                                                         <div class="col-sm-1 mr-2">
                                                                             <input type="checkbox"
                                                                                 onChange="pushSize({{ $i }})"
-                                                                                name="checkbox"
+                                                                                name="xxlarge[]"
                                                                                 id="xxlarge{{ $i }}"
-                                                                                value="2xlarge">
+                                                                                value="1">
                                                                             <label for="2xlarge">2XL</label>
                                                                         </div>
 
@@ -243,12 +243,18 @@ $activeNav = 'inventory-management';
         var arr_img = [];
         var size = [];
         let formData = new FormData();
-
+   var checkid=0;
         function push(id) {
             var data = document.getElementById(id).value;
+         id = id.split("colorpicker");
+           if(id==checkid){
+               arraydata
+           }
+
             //   alert('color:'+data)
             arraydata.push(data);
-
+            checkid=id;
+                console.log({arraydata})
             //  console.log('data form:'+formData.get('colors[]'));
 
 
@@ -298,14 +304,59 @@ $activeNav = 'inventory-management';
             //  alert('form'+image_upload.get('images[]'));
 
         });
+var smallValues;
+var mediumValues;
+ var largeValues;
+   var xlargeValues;
+   var xxlargeValues;
 
         function pushSize(id) {
-            alert(id);
-            let medium = document.getElementById('medium' + id);
-            alert('medium ' + medium);
-            if (medium.checked) {
-                alert('checked medium');
-            }
+             smallValues = $("input[name='small[]']:checked")
+              .map(function(){return $(this).val();}).get();
+               mediumValues = $("input[name='medium[]']:checked")
+              .map(function(){return $(this).val();}).get();
+               largeValues = $("input[name='large[]']:checked")
+              .map(function(){return $(this).val();}).get();
+               xlargeValues = $("input[name='xlarge[]']:checked")
+              .map(function(){return $(this).val();}).get();
+               xxlargeValues = $("input[name='xxlarge[]']:checked")
+              .map(function(){return $(this).val();}).get();
+              console.log('sm: '+smallValues)
+              console.log('med: '+mediumValues)
+              console.log('large: '+largeValues)
+            // let small = document.getElementById('small' + id);
+//             let large = document.getElementById('large' + id);
+//             let xlarge = document.getElementById('xlarge' + id);
+//             let xxlarge = document.getElementById('xxlarge' + id);
+//             if (medium.checked) {
+//                 alert('checked medium');
+//                 size.push({medium:1,id:id})
+//             }
+//             // if (small.checked) {
+//             //     alert('checked small');
+
+//             // }
+//             if (large.checked) {
+//                 alert('checked large');
+//                 size.push({large:1,id:id})
+//             }
+//             if (xlarge.checked) {
+//                 size.push({xlarge:1,id:id})
+//                 alert('checked xlarge');
+//             }
+//             if (xxlarge.checked) {
+//                 size.push({xxlarge:1,id:id})
+//                 alert('checked xxlarge');
+//             }
+//             console.log('size : ');
+//             console.log({size});
+//             for(var i = 0; i < arraydata.length; i++) {
+//     var clr = arraydata[i];
+//     for(var j = 0; j < clr.length; j++) {
+//         display("clr[" + i + "][" + j + "] = " + clr[j]);
+//         console.log('2d'+clr[j])
+//     }
+// }
         }
         $(".sub").click(function(e) {
             e.preventDefault();
@@ -327,6 +378,11 @@ $activeNav = 'inventory-management';
                 for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
                     formData.append('id[]', i);
                     formData.append('colors[]', arraydata[i]);
+                     formData.append('small[]', smallValues[i]);
+                     formData.append('medium[]', mediumValues[i]);
+                     formData.append('large[]', largeValues[i]);
+                     formData.append('xlarge[]',xlargeValues[i]);
+                     formData.append('xxlarge[]', xxlargeValues[i]);
                     //   console.log('data inserted:');
                 }
 
@@ -347,6 +403,8 @@ $activeNav = 'inventory-management';
                 formData.append('des', des);
                 formData.append('cid', cid);
                 formData.append('status', status);
+
+
                 // console.log('colorimg'+formData.get('colorimg'));
 
                 // alert('button submit ');

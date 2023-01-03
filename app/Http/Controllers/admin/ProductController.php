@@ -27,7 +27,7 @@ public function index(request $request)
 
 public function create_product(request $request)
 {
-  
+
             $filePath = storage_path('app/public/banner_image/'.$request->baseimg);
                 if(is_file($filePath) && file_exists($filePath)){
                 unlink($filePath);
@@ -85,6 +85,11 @@ public function create_product(request $request)
                 $add->product_id=$id;
                 $add->color=$request->colors[$key];
                 $add->base_image=$img_name;
+                $add->small=$request->small[$key];
+                $add->medium=$request->medium[$key];
+                $add->large=$request->large[$key];
+                $add->xlarge=$request->xlarge[$key];
+                $add->xxlarge=$request->xxlarge[$key];
                 $add->save();
         }
 
