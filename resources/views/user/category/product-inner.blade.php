@@ -111,32 +111,31 @@ $activeNav = 'user-dash';
                           <div class="box mt-3" onclick="showimg({{$color->id}});" style="background-color:{{$color->color}};"></div></div>
                          @endforeach
                         </div>
-                        {{-- <div class="col-lg-8 text-right">
-                            <div class="custom-control custom-radio1 custom-control-inline">
-                                <input type="radio" onClick="colorproduct(1,{{$product->category_id}})" id="customRadioInline1" name="customRadioInline"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline1"></label>
-                            </div>
-                            <div class="custom-control custom-radio2 custom-control-inline">
-                                <input type="radio" onClick="colorproduct(2)" id="customRadioInline2" name="customRadioInline"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline2"></label>
-                            </div>
-                            <div class="custom-control custom-radio3 custom-control-inline">
-                                <input type="radio"  onClick="colorproduct(3)" id="customRadioInline3" name="customRadioInline"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline3"></label>
-                            </div>
-                            <div class="custom-control custom-radio4 custom-control-inline">
-                                <input type="radio"  onClick="colorproduct(4)" id="customRadioInline4" name="customRadioInline"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline4"></label>
-                            </div>
-                        </div> --}}
-
-
                     </div>
                     <div class="size-wrapper">
+                        <p>Sizes Available</p>
+                        <div class="wrapper">
+                               @foreach($product->color_images as $size)
+                               @if($size->small==1)
+                                 <p class="p-3">Small</p>
+                                     @endif
+
+                                 @if($size->medium==1)
+                                 <p class="p-3">Medium </p>
+                                     @endif
+                                  @if($size->large==1)
+                                 <p class="p-3">Large </p>
+                                 @endif
+                                   @if($size->xlarge==1)
+                                 <p class="p-2">XLarge </p>
+                                 @endif
+                                  @if($size->xxlarge==1)
+                                 <p class="p-2">2XLarge </p>
+                                 @endif
+                               @endforeach
+                        </div>
+                    </div>
+                     <div class="size-wrapper">
                         <p>Quantity</p>
                         <div class="wrapper">
                             <div class="plus-minus-div">

@@ -41,8 +41,7 @@ $activeNav = 'inventory-management';
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-lg-10">
-                                                    <form method="post"
-                                                        enctype="multipart/form-data">
+                                                    <form method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
@@ -53,11 +52,13 @@ $activeNav = 'inventory-management';
                                                             <div class="form-group col-md-6">
                                                                 <label for="inputPassword4">Product Category*</label>
                                                                 <select class="form-control"
-                                                                    id="exampleFormControlSelect1" name="category_id"
-                                                                    required>
+                                                                    id="exampleFormControlSelect1" onChange="getid()"
+                                                                    name="category_id" required>
                                                                     <option disabled>Select Product Category</option>
                                                                     @foreach ($category as $item)
-                                                                        <option id="category_id" value="{{ $item->id }}">
+                                                                    @php if ($item->id ==2) $selected = ' selected="selected"'; else $selected = ''; @endphp
+                                                                        <option  <?= $selected ?> id="category_id"
+                                                                            value="{{ $item->id }}">
                                                                             {{ $item->name }}</option>
                                                                     @endforeach
                                                                 </select>
@@ -84,33 +85,98 @@ $activeNav = 'inventory-management';
                                                                     <img src="" id="baseimg">
                                                                     <button class="btn-3"><i
                                                                             class="fas fa-plus"></i></button>
-                                                                    <input type="file" id="base_img" onchange="changeImage(this,'baseimg');" name="base_img"
-                                                                     required />
+                                                                    <input type="file" id="base_img"
+                                                                        onchange="changeImage(this,'baseimg');"
+                                                                        name="base_img" required />
 
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <h4 id="alert" class="text-center text-danger">Please Select
+                                                            All Colors According To Product</h4>
+
                                                         @php
                                                             $i = 1;
                                                         @endphp
                                                         @while ($i <= 4)
                                                             <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <div class="upload-btn-wrapper">
-                                                                    <img src="" id="preview{{$i}}">
-                                                                    <button class="btn-3"><i
-                                                                            class="fas fa-plus"></i></button>
-                                                                    <input type="file" onchange="changeImage(this,'preview{{$i}}');" name="banner_image[]"
-                                                                        id="banner_image" required />
+                                                                <div class="form-group col-md-6">
+
+                                                                    <div class="upload-btn-wrapper">
+                                                                        <img src=""
+                                                                            id="preview{{ $i }}">
+                                                                        <button class="btn-3"><i
+                                                                                class="fas fa-plus"></i></button>
+                                                                        <input type="file"
+                                                                            onchange="changeImage(this,'preview{{ $i }}');"
+                                                                            name="banner_image[]" id="banner_image"
+                                                                            required />
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="colorpicker">Color Picker:</label>
+                                                                    <input type="color" class="colorclass"
+                                                                        id="colorpicker{{ $i }}"
+                                                                        onchange="push('colorpicker{{ $i }}')"
+                                                                        name="color" value="#000000" required>
                                                                 </div>
 
+                                                                <div class="form-group col-sm-8"
+                                                                    id="sizetab{{ $i }}">
+                                                                    <label for="colorpicker">Size:</label>
+                                                                    <div class="row">
+
+
+                                                                        <div class="col-sm-1 mr-2">
+                                                                            <input name="checkbox" type="checkbox"
+                                                                                id="small{{ $i }}"
+                                                                                value="small">
+                                                                            <label for="small">Small</label>
+                                                                        </div>
+
+
+                                                                        <div class="col-sm-1 mr-2">
+                                                                            <input type="checkbox"
+                                                                                onChange="pushSize({{ $i }})"
+                                                                                name="checkbox"
+                                                                                id="medium{{ $i }}"
+                                                                                value="medium">
+                                                                            <label for="medium">Medium</label>
+                                                                        </div>
+
+                                                                        <div class="col-sm-1 mr-2">
+                                                                            <input type="checkbox"
+                                                                                onChange="pushSize({{ $i }})"
+                                                                                name="checkbox"
+                                                                                id="large{{ $i }}"
+                                                                                value="large">
+                                                                            <label for="large">Large</label>
+                                                                        </div>
+
+                                                                        <div class="col-sm-1 mr-2">
+                                                                            <input type="checkbox"
+                                                                                onChange="pushSize({{ $i }})"
+                                                                                name="checkbox"
+                                                                                id="xlarge{{ $i }}"
+                                                                                value="xlarge">
+                                                                            <label for="xlarge">XL</label>
+                                                                        </div>
+
+                                                                        <div class="col-sm-1 mr-2">
+                                                                            <input type="checkbox"
+                                                                                onChange="pushSize({{ $i }})"
+                                                                                name="checkbox"
+                                                                                id="xxlarge{{ $i }}"
+                                                                                value="2xlarge">
+                                                                            <label for="2xlarge">2XL</label>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="colorpicker">Color Picker:</label>
-                                                                <input type="color" class="colorclass" id="colorpicker{{$i}}" onchange="push('colorpicker{{$i}}')" name="color"
-                                                                    value="#000000" required>
-                                                            </div>
-                                                        </div>
                                                             @php
                                                                 $i++;
                                                             @endphp
@@ -122,8 +188,8 @@ $activeNav = 'inventory-management';
 
                                                                     <button class="btn-3"><i
                                                                             class="fas fa-plus"></i></button>
-                                                                    <input type="file" id="imageupload" name="multi_image[]"
-                                                                        multiple required />
+                                                                    <input type="file" id="imageupload"
+                                                                        name="multi_image[]" multiple required />
 
                                                                 </div>
                                                             </div>
@@ -164,116 +230,147 @@ $activeNav = 'inventory-management';
     </div>
     <script>
         $(document).ready(function() {
+            console.log('ready page');
+            $('#alert').hide();
+            for(var i=1; i<=4;i++){
+                $('#sizetab'+i).hide();
+            }
 
         });
     </script>
     <script>
         var arraydata = [];
-        var arr_img=[];
-          let formData = new FormData();
-        function push(id){
-          var data=document.getElementById(id).value;
-        //   alert('color:'+data)
+        var arr_img = [];
+        var size = [];
+        let formData = new FormData();
+
+        function push(id) {
+            var data = document.getElementById(id).value;
+            //   alert('color:'+data)
             arraydata.push(data);
 
-//  console.log('data form:'+formData.get('colors[]'));
+            //  console.log('data form:'+formData.get('colors[]'));
 
 
         }
 
-        function changeImage(input,imgId) {
+        function getid() {
+            selected = document.getElementById('exampleFormControlSelect1').value;
+            if (selected == 1) {
+                 for(var i=1; i<=4;i++){
+                $('#sizetab'+i).show();
+            }
+
+            }
+        }
+
+        function changeImage(input, imgId) {
             var reader;
             if (input.files && input.files[0]) {
                 reader = new FileReader();
                 reader.onload = function(e) {
-                     $('#'+imgId)
-              .attr('src', e.target.result);
+                    $('#' + imgId)
+                        .attr('src', e.target.result);
                     // ('#'+imgId).setAttribute('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
-                if(imgId=='baseimg'){
-formData.append('baseimg',input.files[0]);
-                }else{
-                   arr_img.push(input.files[0]);
-                    for (var i=0, iLen=arr_img.length; i<iLen; i++) {
-               formData.append('imgs[]',arr_img[i]);
-                //   console.log('data inserted:');
+                if (imgId == 'baseimg') {
+                    formData.append('baseimg', input.files[0]);
+                } else {
+                    arr_img.push(input.files[0]);
+                    for (var i = 0, iLen = arr_img.length; i < iLen; i++) {
+                        formData.append('imgs[]', arr_img[i]);
+                        //   console.log('data inserted:');
+                    }
                 }
-            }
 
 
             }
         }
 
-        $('#imageupload').change(function (e) {
-               e.preventDefault();
-    let TotalImages = $('#imageupload')[0].files.length;  //Total Images
-    let images = $('#imageupload')[0];
-     for (let i = 0; i < TotalImages; i++) {
-            formData.append('multi_image[]', images.files[i]);
-        }
-        //  alert('form'+image_upload.get('images[]'));
+        $('#imageupload').change(function(e) {
+            e.preventDefault();
+            let TotalImages = $('#imageupload')[0].files.length; //Total Images
+            let images = $('#imageupload')[0];
+            for (let i = 0; i < TotalImages; i++) {
+                formData.append('multi_image[]', images.files[i]);
+            }
+            //  alert('form'+image_upload.get('images[]'));
 
         });
 
-        $(".sub").click(function(e){
-             e.preventDefault();
-               for (var i=0, iLen=arraydata.length; i<iLen; i++) {
-                  console.log('loop data: '+arraydata[i]);
-
-  }
-  if(arraydata.length == 0){
-data="#000000";
-for(var k=0; k<4; k++){
-      arraydata.push(data);
-}
-console.log({arraydata})
-// alert(arraydata)
-  }
-
-   for (var i=0, iLen=arraydata.length; i<iLen; i++) {
-                  formData.append('id[]',i);
-               formData.append('colors[]',arraydata[i]);
-                //   console.log('data inserted:');
+        function pushSize(id) {
+            alert(id);
+            let medium = document.getElementById('medium' + id);
+            alert('medium ' + medium);
+            if (medium.checked) {
+                alert('checked medium');
+            }
+        }
+        $(".sub").click(function(e) {
+            e.preventDefault();
+            alert(size);
+            if (arraydata.length < 4) {
+                $('#alert').show();
+            } else {
+                if (arraydata.length == 0) {
+                    data = "#000000";
+                    for (var k = 0; k < 4; k++) {
+                        arraydata.push(data);
+                    }
+                    console.log({
+                        arraydata
+                    })
+                    // alert(arraydata)
                 }
 
-            console.log('testing');
-        console.log({arraydata});
-         var cid=document.getElementById('exampleFormControlSelect1').value;
-        var name=document.getElementById('name').value;
-         var price=document.getElementById('price').value;
-          var stock=document.getElementById('stock').value;
-         var des=document.getElementById('des').value;
-         var status=document.getElementById('exampleFormControlSelect1status').value;
+                for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
+                    formData.append('id[]', i);
+                    formData.append('colors[]', arraydata[i]);
+                    //   console.log('data inserted:');
+                }
 
-        formData.append('name', name);
-        formData.append('price', price);
-        formData.append('stock', stock);
-        formData.append('des', des);
-        formData.append('cid', cid);
-        formData.append('status', status);
-        // console.log('colorimg'+formData.get('colorimg'));
+                console.log('testing');
+                console.log({
+                    arraydata
+                });
+                var cid = document.getElementById('exampleFormControlSelect1').value;
+                var name = document.getElementById('name').value;
+                var price = document.getElementById('price').value;
+                var stock = document.getElementById('stock').value;
+                var des = document.getElementById('des').value;
+                var status = document.getElementById('exampleFormControlSelect1status').value;
 
-// alert('button submit ');
+                formData.append('name', name);
+                formData.append('price', price);
+                formData.append('stock', stock);
+                formData.append('des', des);
+                formData.append('cid', cid);
+                formData.append('status', status);
+                // console.log('colorimg'+formData.get('colorimg'));
 
- $.ajax({
-       type:'POST',
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-       url:"{{ route('create_product') }}",
-       data: formData,
-       contentType : false,
-       processData : false,
-       success:function(data){
-           if(data.success){
-               console.log('redirect');
-            window.location.href = "inventory_management";
-           }
-        console.log('done');
+                // alert('button submit ');
 
-       }
-    });
-    });
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('create_product') }}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        if (data.success) {
+                            console.log('redirect');
+                            window.location.href = "inventory_management";
+                        }
+                        console.log('done');
 
+                    }
+                });
+            }
+        });
     </script>
 
     </section>
