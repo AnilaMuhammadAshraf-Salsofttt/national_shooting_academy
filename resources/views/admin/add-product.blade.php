@@ -138,7 +138,7 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#FF0000"></div>
-                                                                            <input onchange="push()" id="red[]"
+                                                                            <input onchange="push({{$i}})" id="color"
 
                                                                                 name="color[{{ $i }}]"
                                                                                 type="radio" value="#FF0000">
@@ -146,7 +146,7 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#000000"></div>
-                                                                            <input  onchange="push()" id="black[]" type="radio"
+                                                                            <input  onchange="push({{$i}})" id="color" type="radio"
                                                                                 name="color[{{ $i }}]"
                                                                                 value="#000000">
 
@@ -155,7 +155,7 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#FFFFFF"></div>
-                                                                            <input onchange="push()" id="white[]" type="radio"
+                                                                            <input onchange="push({{$i}})" id="color" type="radio"
 
                                                                                 name="color[{{ $i }}]"
                                                                                 value="#FFFFFF">
@@ -165,7 +165,7 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#8C001A"></div>
-                                                                            <input onchange="push()" id="burgundy[]" type="radio"
+                                                                            <input onchange="push({{$i}})" id="color" type="radio"
                                                                                 name="color[{{ $i }}]"
                                                                                 value="#8C001A">
 
@@ -174,7 +174,7 @@ $activeNav = 'inventory-management';
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#800000"></div>
-                                                                            <input  onChange="push()" id="maroon[]" type="radio"
+                                                                            <input  onChange="push({{$i}})" id="color" type="radio"
                                                                                 name="color[{{ $i }}]"
                                                                                 value="#800000">
 
@@ -295,7 +295,7 @@ $activeNav = 'inventory-management';
         $(document).ready(function() {
             console.log('ready page');
             $('#alert').hide();
-            for (var i = 0; i < 4; i++) {
+            for (var i = 1; i <=5; i++) {
                 $('#sizetab' + i).hide();
             }
 
@@ -308,36 +308,45 @@ $activeNav = 'inventory-management';
         let formData = new FormData();
 
         var colors, blackValues, whiteValues, maroonValues, burgundyValues;
-
+     
         function push(i) {
-            redValues = $("input[id='red[]']:checked")
+        //   var clr= document.getElementById('color'+i).value;
+        //    arraydata.push(clr)
+        //    console.log({arraydata})
+        //   alert('color: '+clr);
+          
+        
+            color = $("input[id='color']:checked")
                 .map(function() {
                     return $(this).val();
                 }).get();
-            blackValues = $("input[id='black[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            whiteValues = $("input[id='white[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            burgundyValues = $("input[id='burguny[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            maroonValues = $("input[id='maroon[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
+            console.log(color);
+            arraydata.push(color)
+     
+            // blackValues = $("input[id='black[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // whiteValues = $("input[id='white[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // burgundyValues = $("input[id='burguny[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // maroonValues = $("input[id='maroon[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
 
-                 if(redValues!=null){
-                     arraydata.push({color:redValues,id:i})
-                 }
+            //      if(redValues!=null){
+            //          arraydata.push({color:redValues,id:i})
+            //      }
 
-            console.log('red: ' + redValues)
-            console.log('black: ' + blackValues)
-            console.log('white: ' + whiteValues)
+            // console.log('red: ' + redValues)
+            // console.log('black: ' + blackValues)
+            // console.log('white: ' + whiteValues)
 
 
         }
@@ -345,7 +354,7 @@ $activeNav = 'inventory-management';
         function getid() {
             selected = document.getElementById('exampleFormControlSelect1').value;
             if (selected == 1) {
-                for (var i = 1; i <= 4; i++) {
+                for (var i = 1; i <= 5; i++) {
                     $('#sizetab' + i).show();
                 }
 
@@ -469,6 +478,7 @@ $activeNav = 'inventory-management';
 
                 for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
                     formData.append('id[]', i);
+                    formData.append('colors[]',arraydata[i]);
                     formData.append('small[]', smallValues[i]);
                     formData.append('medium[]', mediumValues[i]);
                     formData.append('large[]', largeValues[i]);
@@ -478,6 +488,7 @@ $activeNav = 'inventory-management';
                 }
 
                 console.log('testing');
+                console.log('final array');
                 console.log({
                     arraydata
                 });

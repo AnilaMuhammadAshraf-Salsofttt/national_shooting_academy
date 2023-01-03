@@ -117,27 +117,20 @@ $activeNav = 'user-dash';
                          @endforeach
                         </div>
                     </div>
-                    <div class="size-wrapper">
+                    <div class="size-wrapper" id="shirtsize">
                         <p>Sizes Available</p>
                         <div class="wrapper">
-                               @foreach($product->color_images as $size)
-                               @if($size->small==1)
-                                 <p class="p-3">Small</p>
-                                     @endif
-
-                                 @if($size->medium==1)
-                                 <p class="p-3">Medium </p>
-                                     @endif
-                                  @if($size->large==1)
-                                 <p class="p-3">Large </p>
-                                 @endif
-                                   @if($size->xlarge==1)
-                                 <p class="p-2">XLarge </p>
-                                 @endif
-                                  @if($size->xxlarge==1)
-                                 <p class="p-2">XXLarge </p>
-                                 @endif
-                               @endforeach
+                            
+                                 <p id="small" class="p-3">Small</p>
+                                    
+                                 <p  id="medium" class="p-3">Medium </p>
+                                
+                                 <p id="large" class="p-3">Large </p>
+                                
+                                 <p id="xlarge" class="p-2">XLarge </p>
+                                
+                                 <p  id="xxlarge" class="p-2">XXLarge </p>
+                              
                         </div>
                     </div>
                      <div class="size-wrapper">
@@ -243,6 +236,15 @@ $activeNav = 'user-dash';
 
 @section('js')
     <script>
+    
+        $(document).ready(function() {
+            $('#shirtsize').hide();
+            $('#small').hide();
+            $('#medium').hide();
+            $('#large').hide();
+            $('#xlarge').hide();
+            $('#xxlarge').hide();
+        });
         function showimg(id){
              window.asset = "{{ asset('') }}";
              var path='';
@@ -260,6 +262,34 @@ $activeNav = 'user-dash';
            console.log('path:'+window.asset+path)
              document.getElementById('display')
     .innerHTML = '<img src="'+window.asset+path+'" />';
+           }
+           if(data.size){
+            $('#shirtsize').show();
+            if(data.size.small==1){
+                $('#small').show();
+            }else{
+                $('#small').hide();
+            }
+            if(data.size.medium==1){
+                $('#medium').show();
+            }else{
+                $('#medium').hide();
+            }
+            if(data.size.large==1){
+                $('#large').show();
+            }else{
+                $('#large').hide();
+            }
+            if(data.size.xlarge==1){
+                $('#xlarge').show();
+            }else{
+                $('#xlarge').hide();
+            }
+            if(data.size.xxlarge==1){
+                $('#xxlarge').show();
+            }else{
+                $('#xxlarge').hide();
+            }
            }
         // console.log('done');
 

@@ -84,7 +84,8 @@ class CategoryController extends Controller
     //get color image by id
     public function getColorImage(Request $request){
         $path=ProductColorImage::whereId($request->id)->pluck('base_image');
-        return response()->json(['image'=>$path]);
+        $size=ProductColorImage::whereId($request->id)->first();
+        return response()->json(['image'=>$path,'size'=>$size]);
     }
 
 
