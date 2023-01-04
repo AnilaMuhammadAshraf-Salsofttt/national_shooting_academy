@@ -28,13 +28,18 @@ public function index(request $request)
 public function create_product(request $request)
 {
 
-            $filePath = storage_path('app/public/banner_image/'.$request->baseimg);
-                if(is_file($filePath) && file_exists($filePath)){
-                unlink($filePath);
-                }
-                $path = $request->baseimg->store('public/banner_image');
-                $extension = explode('/', $path);
-               $img_name = end($extension);
+    $img_name = null;
+
+    if ($request->file('baseimg')) {
+        $filePath = storage_path('app/public/banner_image/'.$request->baseimg);
+        if(is_file($filePath) && file_exists($filePath)){
+        unlink($filePath);
+        }
+        $path = $request->baseimg->store('public/banner_image');
+        $extension = explode('/', $path);
+        $img_name = end($extension);
+    }
+
     $Product= new Product();
     $Product->name = $request->name;
     $Product->category_id = $request->cid;
@@ -46,52 +51,91 @@ public function create_product(request $request)
 
   $allowedfileExtension=['pdf','jpg','png','jpeg'];
     $files = $request->file('multi_image');
-    $errors = [];
-    foreach ($files as $file) {
-        $extension = $file->getClientOriginalExtension();
-        $check = in_array($extension,$allowedfileExtension);
-              $id=1;
-        if($check) {
-            foreach($request->file('multi_image') as $mediaFiles) {
-                     // dd($mediaFiles);
-                     $media_ext = $mediaFiles->getClientOriginalName();
+    if (isset($files)) {
 
-                     $media_no_ext = pathinfo($media_ext, PATHINFO_FILENAME);
-                     $mFiles = 'multi_image'.$media_no_ext . '.' . $extension;
+        $errors = [];
+        foreach ($files as $file) {
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension,$allowedfileExtension);
+                $id=1;
+            if($check) {
+                foreach($request->file('multi_image') as $mediaFiles) {
+                        // dd($mediaFiles);
+                        $media_ext = $mediaFiles->getClientOriginalName();
 
-                  $path = Storage::disk('public')->putFileAs('multi_image', new File($mediaFiles),$mFiles);
+                        $media_no_ext = pathinfo($media_ext, PATHINFO_FILENAME);
+                        $mFiles = 'multi_image'.$media_no_ext . '.' . $extension;
 
-                  $im = ProductImage::whereImage(url('storage/multi_image/multi_image'.$media_ext))->whereProductId($Product->id)->count();
-                  if($im == 0){
-                      $image = new ProductImage();
-                      $image->image = url('storage/multi_image/multi_image'.$media_ext);
-                      $image->product_id = $Product->id;
-                     $image->save();
-                     $id++;
-                  }
+                    $path = Storage::disk('public')->putFileAs('multi_image', new File($mediaFiles),$mFiles);
+
+                    $im = ProductImage::whereImage(url('storage/multi_image/multi_image'.$media_ext))->whereProductId($Product->id)->count();
+                    if($im == 0){
+                        $image = new ProductImage();
+                        $image->image = url('storage/multi_image/multi_image'.$media_ext);
+                        $image->product_id = $Product->id;
+                        $image->save();
+                        $id++;
+                    }
+                }
             }
         }
+
     }
         $id=$Product->id;
-      foreach ($request->id as $key => $data) {
-            $filePath = storage_path('app/public/banner_image/'.$request->imgs[$key]);
+        $colorValues = array_values(explode(",",$request->colors));
+        $smallValues = array_values(explode(",",$request->small));
+        $mediumValues = array_values(explode(",",$request->medium));
+        $largeValues = array_values(explode(",",$request->large));
+        $xlargeValues = array_values(explode(",",$request->xlarge));
+        $xxlargeValues = array_values(explode(",",$request->xxlarge));
+        // dd($colorValues, 'dfsdfsdff', $smallValues);
+
+
+        foreach ($colorValues as $key => $value) {
+            $img_name1 = null;
+            if ($request->file('imgs')) {
+                $filePath = storage_path('app/public/banner_image/'.$request->imgs[$key]);
                 if(is_file($filePath) && file_exists($filePath)){
                 unlink($filePath);
                 }
                 $path = $request->imgs[$key]->store('public/banner_image');
                 $extension = explode('/', $path);
-               $img_name = end($extension);
-                $add=new ProductColorImage();
-                $add->product_id=$id;
-                $add->color=$request->colors[$key];
-                $add->base_image=$img_name;
-                $add->small=$request->small[$key];
-                $add->medium=$request->medium[$key];
-                $add->large=$request->large[$key];
-                $add->xlarge=$request->xlarge[$key];
-                $add->xxlarge=$request->xxlarge[$key];
-                $add->save();
+                $img_name1 = end($extension);
+            }
+
+
+            $add=new ProductColorImage();
+            $add->product_id=$id;
+            $add->color= $value;
+            $add->base_image=$img_name1;
+            $add->small= isset($smallValues[$key]) ? 1 : 0;
+            $add->medium= isset($mediumValues[$key]) ? 1 : 0;
+            $add->large= isset($largeValues[$key]) ? 1 : 0;
+            $add->xlarge= isset($xlargeValues[$key]) ? 1 : 0;
+            $add->xxlarge=isset($xxlargeValuesl[$key]) ? 1 : 0;
+            $add->save();
+
         }
+
+    //   foreach ($request->id as $key => $data) {
+    //         $filePath = storage_path('app/public/banner_image/'.$request->imgs[$key]);
+    //             if(is_file($filePath) && file_exists($filePath)){
+    //             unlink($filePath);
+    //             }
+    //             $path = $request->imgs[$key]->store('public/banner_image');
+    //             $extension = explode('/', $path);
+    //            $img_name = end($extension);
+    //             $add=new ProductColorImage();
+    //             $add->product_id=$id;
+    //             $add->color=$request->colors[$key];
+    //             $add->base_image=$img_name;
+    //             $add->small=$request->small[$key];
+    //             $add->medium=$request->medium[$key];
+    //             $add->large=$request->large[$key];
+    //             $add->xlarge=$request->xlarge[$key];
+    //             $add->xxlarge=$request->xxlarge[$key];
+    //             $add->save();
+    //     }
 
     Session::flash('message','Product Has Been Added Successfully');
       return response()->json(['success'=>true]);

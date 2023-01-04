@@ -140,14 +140,14 @@ $activeNav = 'inventory-management';
                                                                                 style="background-color:#FF0000"></div>
                                                                             <input onchange="push({{$i}})" id="color"
 
-                                                                                name="color[{{ $i }}]"
+                                                                                name="color[][{{ $i }}]"
                                                                                 type="radio" value="#FF0000">
                                                                         </div>
                                                                         <div class="col-sm-1">
                                                                             <div class="box"
                                                                                 style="background-color:#000000"></div>
                                                                             <input  onchange="push({{$i}})" id="color" type="radio"
-                                                                                name="color[{{ $i }}]"
+                                                                                name="color[][{{ $i }}]"
                                                                                 value="#000000">
 
                                                                         </div>
@@ -157,7 +157,7 @@ $activeNav = 'inventory-management';
                                                                                 style="background-color:#FFFFFF"></div>
                                                                             <input onchange="push({{$i}})" id="color" type="radio"
 
-                                                                                name="color[{{ $i }}]"
+                                                                                name="color[][{{ $i }}]"
                                                                                 value="#FFFFFF">
 
                                                                         </div>
@@ -166,7 +166,7 @@ $activeNav = 'inventory-management';
                                                                             <div class="box"
                                                                                 style="background-color:#8C001A"></div>
                                                                             <input onchange="push({{$i}})" id="color" type="radio"
-                                                                                name="color[{{ $i }}]"
+                                                                                name="color[][{{ $i }}]"
                                                                                 value="#8C001A">
 
                                                                         </div>
@@ -175,7 +175,7 @@ $activeNav = 'inventory-management';
                                                                             <div class="box"
                                                                                 style="background-color:#800000"></div>
                                                                             <input  onChange="push({{$i}})" id="color" type="radio"
-                                                                                name="color[{{ $i }}]"
+                                                                                name="color[][{{ $i }}]"
                                                                                 value="#800000">
 
                                                                         </div>
@@ -195,7 +195,7 @@ $activeNav = 'inventory-management';
                                                                                 onChange="pushSize({{ $i }})"
                                                                                 name="small[]" type="checkbox"
                                                                                 id="small{{ $i }}"
-                                                                                value="1">
+                                                                                value="{{ $i }}">
                                                                             <label for="small">Small</label>
                                                                         </div>
 
@@ -205,7 +205,7 @@ $activeNav = 'inventory-management';
                                                                                 onChange="pushSize({{ $i }})"
                                                                                 name="medium[]"
                                                                                 id="medium{{ $i }}"
-                                                                                value="1">
+                                                                                value="{{ $i }}">
                                                                             <label for="medium">Medium</label>
                                                                         </div>
 
@@ -214,7 +214,7 @@ $activeNav = 'inventory-management';
                                                                                 onChange="pushSize({{ $i }})"
                                                                                 name="large[]"
                                                                                 id="large{{ $i }}"
-                                                                                value="1">
+                                                                                value="{{ $i }}">
                                                                             <label for="large">Large</label>
                                                                         </div>
 
@@ -223,7 +223,7 @@ $activeNav = 'inventory-management';
                                                                                 onChange="pushSize({{ $i }})"
                                                                                 name="xlarge[]"
                                                                                 id="xlarge{{ $i }}"
-                                                                                value="1">
+                                                                                value="{{ $i }}">
                                                                             <label for="xlarge">XL</label>
                                                                         </div>
 
@@ -232,7 +232,7 @@ $activeNav = 'inventory-management';
                                                                                 onChange="pushSize({{ $i }})"
                                                                                 name="xxlarge[]"
                                                                                 id="xxlarge{{ $i }}"
-                                                                                value="1">
+                                                                                value="{{ $i }}">
                                                                             <label for="2xlarge">2XL</label>
                                                                         </div>
 
@@ -308,21 +308,21 @@ $activeNav = 'inventory-management';
         let formData = new FormData();
 
         var colors, blackValues, whiteValues, maroonValues, burgundyValues;
-     
+
         function push(i) {
         //   var clr= document.getElementById('color'+i).value;
         //    arraydata.push(clr)
         //    console.log({arraydata})
         //   alert('color: '+clr);
-          
-        
+
+
             color = $("input[id='color']:checked")
                 .map(function() {
                     return $(this).val();
                 }).get();
             console.log(color);
             arraydata.push(color)
-     
+
             // blackValues = $("input[id='black[]']:checked")
             //     .map(function() {
             //         return $(this).val();
@@ -402,29 +402,61 @@ $activeNav = 'inventory-management';
         var xxlargeValues;
 
         function pushSize(id) {
-            smallValues = $("input[name='small[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            mediumValues = $("input[name='medium[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            largeValues = $("input[name='large[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            xlargeValues = $("input[name='xlarge[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            xxlargeValues = $("input[name='xxlarge[]']:checked")
-                .map(function() {
-                    return $(this).val();
-                }).get();
-            console.log('sm: ' + smallValues)
-            console.log('med: ' + mediumValues)
-            console.log('large: ' + largeValues)
+
+            smallValues = new Array();
+            $("input[name='small[]']:checked").each(function () {
+
+                smallValues.push(this.value);
+
+            });
+            mediumValues = new Array();
+            $("input[name='medium[]']:checked").each(function () {
+
+                mediumValues.push(this.value);
+
+            });
+            largeValues = new Array();
+            $("input[name='large[]']:checked").each(function () {
+
+                largeValues.push(this.value);
+
+            });
+            xlargeValues = new Array();
+            $("input[name='xlarge[]']:checked").each(function () {
+
+                xlargeValues.push(this.value);
+
+            });
+            xxlargeValues = new Array();
+            $("input[name='xxlarge[]']:checked").each(function () {
+
+                xxlargeValues.push(this.value);
+
+            });
+            // console.log(selected);
+            // smallValues = $("input[name='small[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // mediumValues = $("input[name='medium[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // largeValues = $("input[name='large[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // xlargeValues = $("input[name='xlarge[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // xxlargeValues = $("input[name='xxlarge[]']:checked")
+            //     .map(function() {
+            //         return $(this).val();
+            //     }).get();
+            // console.log('sm: ' + smallValues)
+            // console.log('med: ' + mediumValues)
+            // console.log('large: ' + largeValues)
             // let small = document.getElementById('small' + id);
             //             let large = document.getElementById('large' + id);
             //             let xlarge = document.getElementById('xlarge' + id);
@@ -461,7 +493,7 @@ $activeNav = 'inventory-management';
         }
         $(".sub").click(function(e) {
             e.preventDefault();
-            alert(size);
+            // alert(size);
             if (arraydata.length < 4) {
                 $('#alert').show();
             } else {
@@ -475,17 +507,17 @@ $activeNav = 'inventory-management';
                     })
                     // alert(arraydata)
                 }
-
-                for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
-                    formData.append('id[]', i);
-                    formData.append('colors[]',arraydata[i]);
-                    formData.append('small[]', smallValues[i]);
-                    formData.append('medium[]', mediumValues[i]);
-                    formData.append('large[]', largeValues[i]);
-                    formData.append('xlarge[]', xlargeValues[i]);
-                    formData.append('xxlarge[]', xxlargeValues[i]);
+                console.log(smallValues+' fddddddddddd');
+                // for (var i = 0, iLen = arraydata.length; i < iLen; i++) {
+                    // formData.append('id[]', i);
+                    formData.append('colors',color);
+                    formData.append('small', smallValues);
+                    formData.append('medium', mediumValues);
+                    formData.append('large', largeValues);
+                    formData.append('xlarge', xlargeValues);
+                    formData.append('xxlarge', xxlargeValues);
                     //   console.log('data inserted:');
-                }
+                // }
 
                 console.log('testing');
                 console.log('final array');
