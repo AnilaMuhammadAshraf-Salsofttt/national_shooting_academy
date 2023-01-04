@@ -158,6 +158,10 @@ $activeNav = 'user-dash';
                         @csrf
                         <input type="hidden" value="{{ $product->id }}" name="id">
                         <input type="hidden" value="{{ $product->name }}" name="name">
+                          @php
+                            $percent=20/100;
+                             $newprice=$product->price * $percent;
+                            @endphp
                         <input type="hidden" value="{{ $newprice }}" name="price">
                         <input type="hidden" value="{{ $product->description }}" name="description">
                         <input type="hidden" value="{{ $product->base_image }}" name="base_image">

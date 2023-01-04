@@ -178,8 +178,14 @@
     console.log( "ready!" );
     var auth=`{{Auth::user()}}`;
     if(auth==''){
-   $('#myModal').modal('show');
+        if(!localStorage.getItem('modalshow')){
+     $('#myModal').modal('show');
     }
+    }
+
+    $('#gotosub').click(function(){
+  localStorage.setItem('modalshow',1)
+    });
    var url=`{{Request::url()}}`;
     $('#div_download').hide();
 });
