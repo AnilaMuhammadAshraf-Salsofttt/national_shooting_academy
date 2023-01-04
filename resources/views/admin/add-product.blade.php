@@ -4,6 +4,19 @@ $title = ' inventory-management';
 $activeNav = 'inventory-management';
 ?>
 @include('admin.header');
+<style>
+    #loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.75) url("../images/bg-course.png") no-repeat center center;
+    z-index: 99999;
+}
+    </style>
 @include('admin.nav');
 
 <!--customer start here-->
@@ -299,6 +312,7 @@ $activeNav = 'inventory-management';
                 </div>
         </div>
     </div>
+    <div id='loader'></div>
     <script>
         $(document).ready(function() {
             console.log('ready page');
@@ -501,6 +515,7 @@ $activeNav = 'inventory-management';
         }
         $(".sub").click(function(e) {
             e.preventDefault();
+             $('#loader').show();
             // alert(size);
             if (arraydata.length < 4) {
                 $('#alert').show();
@@ -561,6 +576,7 @@ $activeNav = 'inventory-management';
                     contentType: false,
                     processData: false,
                     success: function(data) {
+                               $('#loader').hide();
                         if (data.success) {
                             console.log('redirect');
                             window.location.href = "inventory_management";
