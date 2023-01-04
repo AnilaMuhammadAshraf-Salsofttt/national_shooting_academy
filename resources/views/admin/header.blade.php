@@ -35,7 +35,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('admin_asset/app-assets/css/plugins/calendars/fullcalendar.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('admin_asset/app-assets/vendors/css/calendars/fullcalendar.min.css') }}">
 	<!-- BEGIN Custom CSS-->
-	<link rel="stylesheet" type="text/css" href="{{ asset('admin_asset/assets/css/style.css?t={{time()}}') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('admin_asset/assets/css/style.css')}}?t={{time()}}">
 	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css') }}" />
 	<link rel="stylesheet" href="{{ asset('admin_asset/assets/css/circle.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('admin_asset/app-assets/vendors/css/tables/datatable/datatables.min.css') }}">
