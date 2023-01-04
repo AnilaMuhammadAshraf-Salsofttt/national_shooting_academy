@@ -324,6 +324,7 @@ $('#div_download').show();
 document.getElementById("marks").innerHTML ="You got " +data.marks+'% marks';
 $('.btn-submit').hide();
 $('.previous').hide();
+$('#count').hide();
        }else{
             $('.click').hide();
                         $('.danger').show();
@@ -332,6 +333,7 @@ $('.danger_marks').show();
         document.getElementById("marks_less").innerHTML ="You got " +data.marks+'% marks';
         $('.btn-submit').hide();
         $('.previous').hide();
+        $('#count').hide();
 
        }
        }

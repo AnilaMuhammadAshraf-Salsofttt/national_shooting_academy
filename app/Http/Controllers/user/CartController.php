@@ -8,12 +8,12 @@ use Session;
 
 class CartController extends Controller
 {
-    
+
     // public function __construct()
     // {
     //     $this->middleware('web')->except('logout');
     // }
-    
+
     public function view_cart()
     {
         $data['cartItem'] = \Cart::getContent();

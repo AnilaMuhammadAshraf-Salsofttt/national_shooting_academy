@@ -66,11 +66,11 @@ $activeNav = 'user-dash';
                         </thead>
                         <tbody>
                             @foreach ($cartItem as $cartItems)
-                                
+
                             <tr>
                                 <td class="pt-4 pb-4">
-                                    <div class="img-wrap"> 
-                                            <img src="{{ $cartItems->attributes->image }}" class="img-fluid mr-4" alt="" style="max-width: 50%;"> 
+                                    <div class="img-wrap">
+                                            <img src="{{ $cartItems->attributes->image }}" class="img-fluid mr-4" alt="" style="max-width: 50%;">
                                             <div class="product-description">
                                                 <p class="text-muted mt-0">{{ $cartItems->name }}</p>
                                             </div>
@@ -82,7 +82,7 @@ $activeNav = 'user-dash';
                                         <div class="value-button" id="decrease" onclick="decreaseValue('{{ $cartItems->id }}')" value="Decrease Value">
                                             <i class="fa fa-minus" aria-hidden="true"></i>
                                         </div>
-    
+
                                         <div class="value-button" id="increase" onclick="increaseValue('{{ $cartItems->id }}')" value="Increase Value">
                                             <i class="fa fa-plus" aria-hidden="true"></i>
                                         </div>
@@ -93,7 +93,7 @@ $activeNav = 'user-dash';
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $cartItems->id}}" >
                                         <input type="number" name="quantity" id="number-{{ $cartItems->id }}" value="{{ $cartItems->quantity }}">
-                                    
+
                                         <button type="submit" class="btn btn-info"><i class="fas fa-redo"></i></button>
                                     </form>
                                     {{-- cart update --}}
@@ -103,19 +103,19 @@ $activeNav = 'user-dash';
                                 </td>
                                 <td class=""><small class="text-muted">${{ $cartItems->quantity*$cartItems->price }}</small></td>
                                 <td class="">
-                                   
+
                                 {{-- cart remove --}}
-                                
+
                                 <form action="{{ url('removeCart') }}" method="POST">
                                     @csrf
                                     <input type="hidden" value="{{ $cartItems->id }}" name="id">
                                     <button type="submit" onclick="return confirm('Are you sure want to remove from cart..?')" class="btn btn-danger"><i class="fas fa-times-circle"></i></button>
-                                </form> 
+                                </form>
                                 {{-- cart remove --}}
 
-                            
+
                             </td>
-                              
+
                             </tr>
                             @endforeach
 
@@ -140,7 +140,7 @@ $activeNav = 'user-dash';
             <div class="col-lg-6 ml-auto mr-lg-5">
                 <div class="row mt-4">
                     <div class="col-md-4">
-                        <a href="{{ url('/') }}" class="btn-cc-1 text-center px-0 w-100">continue shopping</a>
+                        <a href="{{ route('shop') }}" class="btn-cc-1 text-center px-0 w-100">continue shopping</a>
                     </div>
                     <div class="col-md-4">
                         @if ($cartItem->count() > 0 && !Auth::user())
@@ -158,7 +158,7 @@ $activeNav = 'user-dash';
                 </div>
 
                 </div>
-            </div>     
+            </div>
         </div>
     </div>
 </section>

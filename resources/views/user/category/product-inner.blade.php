@@ -101,12 +101,16 @@ $activeNav = 'user-dash';
 
 
                     <h3 class="product-title">{{ ucfirst($product->name) }}</h3>
+                    @if(Auth::user())
                       @php
                             $percent=20/100;
                              $newprice=$product->price * $percent;
                             @endphp
 
                     <h3 class="product__price"><del>${{ $product->price }}</del>  ${{ $newprice }}</h3>
+                    @else
+                     <h3 class="product__price">${{ $product->price }}</h3>
+                    @endif
                     <p class="prod__desc">{{ $product->description }}</p>
                     <div class="row py-4 align-items-center">
                         <div class="col-lg-4">
@@ -120,17 +124,17 @@ $activeNav = 'user-dash';
                     <div class="size-wrapper" id="shirtsize">
                         <p>Sizes Available</p>
                         <div class="wrapper">
-                            
+
                                  <p id="small" class="p-3">Small</p>
-                                    
+
                                  <p  id="medium" class="p-3">Medium </p>
-                                
+
                                  <p id="large" class="p-3">Large </p>
-                                
+
                                  <p id="xlarge" class="p-2">XLarge </p>
-                                
+
                                  <p  id="xxlarge" class="p-2">XXLarge </p>
-                              
+
                         </div>
                     </div>
                      <div class="size-wrapper">
@@ -154,7 +158,7 @@ $activeNav = 'user-dash';
                         @csrf
                         <input type="hidden" value="{{ $product->id }}" name="id">
                         <input type="hidden" value="{{ $product->name }}" name="name">
-                        <input type="hidden" value="{{ $product->price }}" name="price">
+                        <input type="hidden" value="{{ $newprice }}" name="price">
                         <input type="hidden" value="{{ $product->description }}" name="description">
                         <input type="hidden" value="{{ $product->base_image }}" name="base_image">
                         <input type="hidden" value="1" name="quantity">
@@ -236,7 +240,7 @@ $activeNav = 'user-dash';
 
 @section('js')
     <script>
-    
+
         $(document).ready(function() {
             $('#shirtsize').hide();
             $('#small').hide();
@@ -263,6 +267,7 @@ $activeNav = 'user-dash';
              document.getElementById('display')
     .innerHTML = '<img src="'+window.asset+path+'" />';
            }
+           if({{$product->category->id}} ==1){
            if(data.size){
             $('#shirtsize').show();
             if(data.size.small==1){
@@ -291,6 +296,7 @@ $activeNav = 'user-dash';
                 $('#xxlarge').hide();
             }
            }
+        }
         // console.log('done');
 
        }

@@ -259,7 +259,7 @@ Route::post('checkout_insert', [CheckoutController::class, 'checkout_insert']);
 Route::get('thanks', [CheckoutController::class, 'thanks']);
 
 
-Route::get('user_category', [UserCategoryController::class, 'user_category']);
+Route::get('user_category', [UserCategoryController::class, 'user_category'])->name('shop');
 Route::get('user_inner_category/{id}', [UserCategoryController::class, 'user_inner_category']);
 Route::get('user_inner_category_filter', [UserCategoryController::class, 'user_inner_category_filter']);
 Route::get('user_inner_product/{id}/{category_id}', [UserCategoryController::class, 'user_inner_product']);
